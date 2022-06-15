@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo Assessment</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
+
+<style>
+h1{
+    text-align: center;
+}
+
+.btn{
+    text-align: right;
+}
+
+tr{
+    padding: 100px;;
+
+
+}
+
+</style>
+
+
+
+
+
+
+</head>
+<body>
+
+    <h1><u>Smakintel IT Solutions</u></h1>
+
+
+    <button id="modal_button">Create Records</button>
+
+
+
+<table class="table" id="nameTable">
+    <thead>
+      <tr>
+        <th class="fn">Firstname</th>
+        <th class="ln">Lastname</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="row1">
+        <td class="fn">John</td>
+        <td class="ln">Doe</td>
+        <td><button type="button" class="btn btn-warning btn-xs btnUpdate">Update</button></td>
+        <td><button type="button" class="btn btn-danger btn-xs btnDelete">Delete</button></td>
+      </tr>
+      <tr id="row2">
+        <td class="fn">Mary</td>
+        <td class="ln">Moe</td>
+        <td><button type="button" class="btn btn-warning btn-xs btnUpdate">Update</button></td>
+        <td><button type="button"  class="btn btn-danger btn-xs btnDelete">Delete</button></td>
+      </tr>
+      <tr id="row3">
+        <td class="fn">July</td>
+        <td class="ln">Dooley</td>
+        <td><button type="button" class="btn btn-warning btn-xs btnUpdate" >Update</button></td>
+        <td><button type="button" class="btn btn-danger btn-xs btnDelete">Delete</button></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+  <div id="customerModal" class="modal fade">
+    <div class="modal-dialog">
+     <div class="modal-content">
+      <div class="modal-header">
+       <h4 class="modal-title">Create New Records</h4>
+      </div>
+      <div class="modal-body">
+       <label>Enter First Name</label>
+       <input type="text" name="first_name" id="first_name" class="form-control" />
+       <br />
+       <label>Enter Last Name</label>
+       <input type="text" name="last_name" id="last_name" class="form-control" />
+       <br />
+      </div>
+      <div class="modal-footer">
+       <input type="hidden" name="customer_id" id="customer_id"/>
+       <button type="button" id="SubButton" class="btn btn-primary">Submit</button>
+       <button type="button" id="ubButton" class="btn btn-primary">Update</button>
+       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+     </div>
+    </div>
+   </div>
+
+   <script>
+
+    $(document).ready(function(){
+       
+  $('#modal_button').click(function(){
+  $('#customerModal').modal('show');
+  $('#ubButton').hide();  
+  $('#SubButton').show();       
+    });
+ });
+    
+$('#SubButton').on('click', function() {
+  
+var first_name=$('#first_name').val();
+var last_name=$('#last_name').val();
+
+if(first_name!="" && last_name !="" ){
+  var rowCount = $('#nameTable tr').length;
+  console.log(rowCount);
+$('#nameTable tbody').append('<tr id="row'+rowCount+'"><td class="fn">'+first_name+'</td><td class="ln">'+last_name+'</td><td><button type="button" class="btn btn-warning btn-xs btnUpdate">Update</button></td></td><td><button class="btn btn-danger btn-xs btnDelete">Delete</button></td></tr>');
+}
+
+$('#customerModal').modal('hide');
+
+});
+
+//update
+$('body').on('click', '.btnUpdate', function() {
+  $('#customerModal').modal('show');
+  $('#SubButton').hide();
+  $('#ubButton').show();
+  
+  var rowId = $(this).closest('tr').attr('id');
+  $('#ubButton').attr('data-rowId' , rowId);
+
+  var fn = $(this).closest('tr').find('.fn').text();
+  $('#first_name').val(fn);
+
+  var ln = $(this).closest('tr').find('.ln').text();
+  $('#last_name').val(ln);
+  
+  });
+
+
+  //update function
+  $('#ubButton').on('click', function() {
+  var rowId = $('#ubButton').attr('data-rowId');
+  console.log(rowId)
+  
+  var fn = $('#first_name').val();
+  $('#'+rowId).find('.fn').text(fn);
+
+  var ln = $('#last_name').val();
+  $('#'+rowId).find('.ln').text(ln);
+
+  $('#customerModal').modal('hide');
+  });
+
+
+
+
+  //delete
+  $('body').on('click', '.btnDelete', function() {
+    $(this).closest('tr').remove();
+  });
+
+
+
+
+</script>
+
+  
+
+
+   
+
+
+
+    
+</body>
+</html>
